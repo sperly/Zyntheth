@@ -1,0 +1,127 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 3
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Sheet
+S 600  7450 1000 150 
+U 5F039B55
+F0 "ButtonController" 50
+F1 "ButtonController.sch" 50
+$EndSheet
+$Sheet
+S 1750 7450 1150 150 
+U 5F07C5F3
+F0 "ButtonBoard" 50
+F1 "ButtonBoard.sch" 50
+$EndSheet
+$Comp
+L TEENSY:Teensy4.1 U?
+U 1 1 5ED40BBC
+P 5900 3900
+F 0 "U?" H 5900 6465 50  0000 C CNN
+F 1 "Teensy4.1" H 5900 6374 50  0000 C CNN
+F 2 "" H 5500 4300 50  0001 C CNN
+F 3 "" H 5500 4300 50  0001 C CNN
+	1    5900 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5ED46645
+P 1200 1000
+F 0 "#PWR?" H 1200 850 50  0001 C CNN
+F 1 "+3.3V" H 1215 1173 50  0000 C CNN
+F 2 "" H 1200 1000 50  0001 C CNN
+F 3 "" H 1200 1000 50  0001 C CNN
+	1    1200 1000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 5ED47973
+P 7450 1300
+F 0 "#PWR?" H 7450 1150 50  0001 C CNN
+F 1 "+5V" H 7465 1473 50  0000 C CNN
+F 2 "" H 7450 1300 50  0001 C CNN
+F 3 "" H 7450 1300 50  0001 C CNN
+	1    7450 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED47F55
+P 7200 1900
+F 0 "#PWR?" H 7200 1650 50  0001 C CNN
+F 1 "GND" H 7205 1727 50  0000 C CNN
+F 2 "" H 7200 1900 50  0001 C CNN
+F 3 "" H 7200 1900 50  0001 C CNN
+	1    7200 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED48AB2
+P 4600 1550
+F 0 "#PWR?" H 4600 1300 50  0001 C CNN
+F 1 "GND" H 4605 1377 50  0000 C CNN
+F 2 "" H 4600 1550 50  0001 C CNN
+F 3 "" H 4600 1550 50  0001 C CNN
+	1    4600 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED48ECD
+P 7250 3100
+F 0 "#PWR?" H 7250 2850 50  0001 C CNN
+F 1 "GND" H 7255 2927 50  0000 C CNN
+F 2 "" H 7250 3100 50  0001 C CNN
+F 3 "" H 7250 3100 50  0001 C CNN
+	1    7250 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED4962A
+P 4650 5000
+F 0 "#PWR?" H 4650 4750 50  0001 C CNN
+F 1 "GND" H 4655 4827 50  0000 C CNN
+F 2 "" H 4650 5000 50  0001 C CNN
+F 3 "" H 4650 5000 50  0001 C CNN
+	1    4650 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED4A072
+P 5900 5400
+F 0 "#PWR?" H 5900 5150 50  0001 C CNN
+F 1 "GND" H 5905 5227 50  0000 C CNN
+F 2 "" H 5900 5400 50  0001 C CNN
+F 3 "" H 5900 5400 50  0001 C CNN
+	1    5900 5400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED4A4B7
+P 7300 4900
+F 0 "#PWR?" H 7300 4650 50  0001 C CNN
+F 1 "GND" H 7305 4727 50  0000 C CNN
+F 2 "" H 7300 4900 50  0001 C CNN
+F 3 "" H 7300 4900 50  0001 C CNN
+	1    7300 4900
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC

@@ -1,0 +1,310 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 3
+Title "ButtonController"
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L ELN:ATtiny87-XU_ELN U?
+U 1 1 5F04061A
+P 4900 3450
+F 0 "U?" H 4270 3496 50  0000 R CNN
+F 1 "ATtiny87-XU_ELN" H 4270 3405 50  0000 R CNN
+F 2 "Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm" H 4900 3450 50  0001 C CIN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8265-8-bit-AVR-Microcontroller-tinyAVR-ATtiny87-ATtiny167_datasheet.pdf" H 4900 3450 50  0001 C CNN
+	1    4900 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x04_Male J?
+U 1 1 5F041140
+P 7450 3550
+F 0 "J?" H 7422 3524 50  0000 R CNN
+F 1 "Conn_01x04_Male" H 7422 3433 50  0000 R CNN
+F 2 "" H 7450 3550 50  0001 C CNN
+F 3 "~" H 7450 3550 50  0001 C CNN
+	1    7450 3550
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5F0437D5
+P 7200 3400
+F 0 "#PWR?" H 7200 3250 50  0001 C CNN
+F 1 "+3.3V" H 7215 3573 50  0000 C CNN
+F 2 "" H 7200 3400 50  0001 C CNN
+F 3 "" H 7200 3400 50  0001 C CNN
+	1    7200 3400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F043BC9
+P 4950 4800
+F 0 "#PWR?" H 4950 4550 50  0001 C CNN
+F 1 "GND" H 4955 4627 50  0000 C CNN
+F 2 "" H 4950 4800 50  0001 C CNN
+F 3 "" H 4950 4800 50  0001 C CNN
+	1    4950 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F0443BA
+P 7200 3800
+F 0 "#PWR?" H 7200 3550 50  0001 C CNN
+F 1 "GND" H 7205 3627 50  0000 C CNN
+F 2 "" H 7200 3800 50  0001 C CNN
+F 3 "" H 7200 3800 50  0001 C CNN
+	1    7200 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F044714
+P 7200 2850
+F 0 "#PWR?" H 7200 2600 50  0001 C CNN
+F 1 "GND" H 7205 2677 50  0000 C CNN
+F 2 "" H 7200 2850 50  0001 C CNN
+F 3 "" H 7200 2850 50  0001 C CNN
+	1    7200 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5F0449CC
+P 4950 2150
+F 0 "#PWR?" H 4950 2000 50  0001 C CNN
+F 1 "+3.3V" H 4965 2323 50  0000 C CNN
+F 2 "" H 4950 2150 50  0001 C CNN
+F 3 "" H 4950 2150 50  0001 C CNN
+	1    4950 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5F044D7F
+P 7200 2250
+F 0 "#PWR?" H 7200 2100 50  0001 C CNN
+F 1 "+3.3V" H 7215 2423 50  0000 C CNN
+F 2 "" H 7200 2250 50  0001 C CNN
+F 3 "" H 7200 2250 50  0001 C CNN
+	1    7200 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7250 3450 7200 3450
+Wire Wire Line
+	7200 3450 7200 3400
+Wire Wire Line
+	4950 2150 4950 2300
+Wire Wire Line
+	4950 2300 5000 2300
+Wire Wire Line
+	5000 2300 5000 2350
+Wire Wire Line
+	4950 2300 4900 2300
+Wire Wire Line
+	4900 2300 4900 2350
+Connection ~ 4950 2300
+Wire Wire Line
+	5000 4550 5000 4600
+Wire Wire Line
+	5000 4600 4950 4600
+Wire Wire Line
+	4900 4600 4900 4550
+Wire Wire Line
+	4950 4600 4950 4800
+Connection ~ 4950 4600
+Wire Wire Line
+	4950 4600 4900 4600
+Wire Wire Line
+	7200 2850 7200 2800
+Wire Wire Line
+	7200 2800 7250 2800
+Wire Wire Line
+	7250 3750 7200 3750
+Wire Wire Line
+	7200 3750 7200 3800
+Wire Wire Line
+	7250 2300 7200 2300
+Wire Wire Line
+	7200 2300 7200 2250
+Wire Wire Line
+	5600 3750 6500 3750
+Wire Wire Line
+	6500 3750 6500 3650
+Wire Wire Line
+	6500 3650 7250 3650
+$Comp
+L Connector:Conn_01x06_Female J?
+U 1 1 5F0415C2
+P 7450 2500
+F 0 "J?" H 7478 2476 50  0000 L CNN
+F 1 "Conn_01x06_Female" H 7478 2385 50  0000 L CNN
+F 2 "" H 7450 2500 50  0001 C CNN
+F 3 "~" H 7450 2500 50  0001 C CNN
+	1    7450 2500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5600 3550 7250 3550
+Wire Wire Line
+	7250 2400 6250 2400
+Wire Wire Line
+	6250 2400 6250 2850
+Wire Wire Line
+	6250 2850 5600 2850
+Wire Wire Line
+	7250 2500 6300 2500
+Wire Wire Line
+	6300 2500 6300 3050
+Wire Wire Line
+	6300 3050 5600 3050
+Wire Wire Line
+	5600 3150 6350 3150
+Wire Wire Line
+	6350 3150 6350 2600
+Wire Wire Line
+	6350 2600 7250 2600
+Wire Wire Line
+	6400 3250 6400 2700
+Wire Wire Line
+	6400 2700 7250 2700
+Wire Wire Line
+	5600 3250 6400 3250
+$Comp
+L Device:Rotary_Encoder_Switch SW?
+U 1 1 5ED148B9
+P 6450 4550
+F 0 "SW?" H 6450 4917 50  0000 C CNN
+F 1 "Rotary_Encoder_Switch" H 6450 4826 50  0000 C CNN
+F 2 "" H 6300 4710 50  0001 C CNN
+F 3 "~" H 6450 4810 50  0001 C CNN
+	1    6450 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C?
+U 1 1 5ED155F6
+P 3600 2150
+F 0 "C?" H 3715 2196 50  0000 L CNN
+F 1 "C" H 3715 2105 50  0000 L CNN
+F 2 "" H 3638 2000 50  0001 C CNN
+F 3 "~" H 3600 2150 50  0001 C CNN
+	1    3600 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:CP C?
+U 1 1 5ED159D1
+P 3250 2150
+F 0 "C?" H 3368 2196 50  0000 L CNN
+F 1 "CP" H 3368 2105 50  0000 L CNN
+F 2 "" H 3288 2000 50  0001 C CNN
+F 3 "~" H 3250 2150 50  0001 C CNN
+	1    3250 2150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED15DC6
+P 5900 4950
+F 0 "R?" H 5970 4996 50  0000 L CNN
+F 1 "R" H 5970 4905 50  0000 L CNN
+F 2 "" V 5830 4950 50  0001 C CNN
+F 3 "~" H 5900 4950 50  0001 C CNN
+	1    5900 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED160A7
+P 5800 4950
+F 0 "R?" H 5870 4996 50  0000 L CNN
+F 1 "R" H 5870 4905 50  0000 L CNN
+F 2 "" V 5730 4950 50  0001 C CNN
+F 3 "~" H 5800 4950 50  0001 C CNN
+	1    5800 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5ED162FB
+P 6950 4950
+F 0 "R?" H 7020 4996 50  0000 L CNN
+F 1 "R" H 7020 4905 50  0000 L CNN
+F 2 "" V 6880 4950 50  0001 C CNN
+F 3 "~" H 6950 4950 50  0001 C CNN
+	1    6950 4950
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5ED165B4
+P 6450 4950
+F 0 "#PWR?" H 6450 4700 50  0001 C CNN
+F 1 "GND" H 6455 4777 50  0000 C CNN
+F 2 "" H 6450 4950 50  0001 C CNN
+F 3 "" H 6450 4950 50  0001 C CNN
+	1    6450 4950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6150 4550 6100 4550
+Wire Wire Line
+	6100 4550 6100 4800
+Wire Wire Line
+	6100 4800 6450 4800
+Wire Wire Line
+	6450 4800 6450 4950
+Wire Wire Line
+	6450 4800 6800 4800
+Wire Wire Line
+	6800 4800 6800 4650
+Wire Wire Line
+	6800 4650 6750 4650
+Connection ~ 6450 4800
+Wire Wire Line
+	6750 4450 6850 4450
+Wire Wire Line
+	6850 4450 6850 3950
+Wire Wire Line
+	6850 3950 5600 3950
+Wire Wire Line
+	6150 4450 6100 4450
+Wire Wire Line
+	6100 4450 6100 4050
+Wire Wire Line
+	6100 4050 5600 4050
+Wire Wire Line
+	6150 4650 6000 4650
+Wire Wire Line
+	6000 4650 6000 4150
+Wire Wire Line
+	6000 4150 5600 4150
+Wire Wire Line
+	6100 4450 5800 4450
+Wire Wire Line
+	5800 4450 5800 4800
+Connection ~ 6100 4450
+Wire Wire Line
+	6000 4650 5900 4650
+Wire Wire Line
+	5900 4650 5900 4800
+Connection ~ 6000 4650
+Wire Wire Line
+	6850 4450 6950 4450
+Wire Wire Line
+	6950 4450 6950 4800
+Connection ~ 6850 4450
+$EndSCHEMATC
