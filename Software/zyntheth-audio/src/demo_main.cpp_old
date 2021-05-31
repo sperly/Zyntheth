@@ -1,0 +1,60 @@
+#include "Arduino.h"
+#include <Audio.h>
+#include <Bounce2.h>
+#include <Wire.h>
+#include <SPI.h>
+#include <SD.h>
+#include <SerialFlash.h>
+#include <USBHost_t36.h>
+
+#include <vector>
+
+#include "config.hpp"
+#include "test.hpp"
+
+AudioControlSGTL5000 sgtl5000_1;
+AudioOutputI2S i2s1;
+AudioOutputUSB usbAudioOut;
+
+AudioMixer4 mixer;
+AudioConnection patchCords[5];
+
+void setup()
+{
+    pinMode(LED_BUILTIN,OUTPUT);
+
+    Serial.begin(9600);
+
+    delay(300);
+    Serial.println("---* ZYNTHETH *---");
+    
+    AudioMemory(TOTAL_VOICES*3);
+    sgtl5000_1.enable();
+    sgtl5000_1.volume(0.5);
+
+    usbAudioOut.begin();
+
+    patchCords[0] = AudioConnection{newTest.GetOutput() , 0, mixer, 0};
+    mixer.gain(0, 0.4);
+    mixer.gain(1, 0.4);
+
+    newTest.SetAlgorithm(2);
+}
+
+
+void loop()
+{
+    digitalWriteFast(LED_BUILTIN,!digitalReadFast(LED_BUILTIN));
+    
+    newTest.PlayNote(63);
+
+    delay(500);
+    
+    int usage = AudioProcessorUsage();
+    int mem_usage = AudioMemoryUsageMax();
+    Serial.printf("Usage: %i%% - %i blocks\r\n", usage, mem_usage);
+
+    newTest.StopNote();
+
+    delay(500);
+}
