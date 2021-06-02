@@ -28,5 +28,4 @@ class Encoder
     int pulseCountsCW;
     int pulseCountsCCW;
     encState state;
-    //const signed char stateTable[4][4] = {/* 0b00 */{0, FORWARD, REWERSE, 0}, /* 0b01 */ {REWERSE, 0, 0, FORWARD}, /* 0b10 */ {FORWARD, 0, 0, REWERSE},  /* 0b11 */{0, REWERSE, FORWARD, 0}};
 };

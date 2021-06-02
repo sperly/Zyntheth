@@ -51,28 +51,24 @@ void MCP23S17::Init(short csPin, short intPinA, short intPinB)
     writeByte(IOCON_A, iocon.IOCON);
 
     IPOL_t ipol;
-    ipol.IOP0 = 1;
-    ipol.IOP1 = 1;
-    ipol.IOP2 = 1;
+    ipol.IPO = 0xFF;
     writeByte(IPOL_A, ipol.IPO);
+    writeByte(IPOL_B, ipol.IPO);
 
     GPINTEN_t gpinten;
-    gpinten.GPINT0 = 1;
-    gpinten.GPINT1 = 1;
-    gpinten.GPINT2 = 1;
+    gpinten.GPINT = 0xFF;
     writeByte(GPINTEN_A, gpinten.GPINT);
+    writeByte(GPINTEN_B, gpinten.GPINT);
 
     INTCON_t intcon;
-    intcon.IOC0 = 0;
-    intcon.IOC1 = 0;
-    intcon.IOC2 = 0;
+    intcon.IOC = 0x00;
     writeByte(INTCON_A, intcon.IOC);
+    writeByte(INTCON_B, intcon.IOC);
 
     GPPU_t gppu;
-    gppu.PU0 = 1;
-    gppu.PU1 = 1;
-    gppu.PU2 = 1;
+    gppu.PU = 0xFF;
     writeByte(GPPU_A, gppu.PU);
+    writeByte(GPPU_B, gppu.PU);
 }
 
 void MCP23S17::SetPortDirection(char port, char direction)
