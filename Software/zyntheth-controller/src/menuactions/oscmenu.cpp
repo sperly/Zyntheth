@@ -19,11 +19,11 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
     switch (parameter)
     {
         case 1: {
-            if (value > 0 && vc.oscillator[oscid].waveform < WAVEFORMS - 1)
+            if (value > 0 && vc.oscillator[oscid].waveform < WAVEFORM_SAMPLE_HOLD)
             {
                 vc.oscillator[oscid].waveform++;
             }
-            else if (value < 0 && vc.oscillator[oscid].waveform > 0)
+            else if (value < 0 && vc.oscillator[oscid].waveform > WAVEFORM_SINE)
             {
                 vc.oscillator[oscid].waveform--;
             }
@@ -34,12 +34,12 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
         case 2: {
             if (value > 0)
             {
-                vc.oscillator[oscid].amplitude += (float)(value / 20.0);
+                vc.oscillator[oscid].amplitude += (float_t)((float_t)value / 20.0);
             }
             else
             {
                 if (vc.oscillator[oscid].amplitude > 0.05)
-                    vc.oscillator[oscid].amplitude += (float)(value / 20.0);
+                    vc.oscillator[oscid].amplitude += (float_t)((float_t)value / 20.0);
                 else
                     vc.oscillator[oscid].amplitude = 0;
             }
@@ -50,32 +50,32 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
         case 3: {
             if (value > 0)
             {
-                vc.oscillator[oscid].freqModulation += (float)(value / 20.0);
+                vc.oscillator[oscid].freqMod += (float_t)((float_t)value / 20.0);
             }
             else
             {
-                if (vc.oscillator[oscid].freqModulation > 0.05)
-                    vc.oscillator[oscid].freqModulation += (float)(value / 20.0);
+                if (vc.oscillator[oscid].freqMod > 0.05)
+                    vc.oscillator[oscid].freqMod += (float_t)((float_t)value / 20.0);
                 else
-                    vc.oscillator[oscid].freqModulation = 0;
+                    vc.oscillator[oscid].freqMod = 0;
             }
-            Serial.printf("Osc.freqMod: %.02f\n\r", vc.oscillator[oscid].freqModulation);
+            Serial.printf("Osc.freqMod: %.02f\n\r", vc.oscillator[oscid].freqMod);
             drawData();
             break;
         }
         case 4: {
             if (value > 0)
             {
-                vc.oscillator[oscid].phase += (float)(value / 20.0);
+                vc.oscillator[oscid].phaseMod += (float_t)((float_t)value / 20.0);
             }
             else
             {
-                if (vc.oscillator[oscid].phase > 0.05)
-                    vc.oscillator[oscid].phase += (float)(value / 20.0);
+                if (vc.oscillator[oscid].phaseMod > 0.05)
+                    vc.oscillator[oscid].phaseMod += (float_t)((float_t)value / 20.0);
                 else
-                    vc.oscillator[oscid].phase = 0;
+                    vc.oscillator[oscid].phaseMod = 0;
             }
-            Serial.printf("Osc.phase: %.02f\n\r", vc.oscillator[oscid].phase);
+            Serial.printf("Osc.phaphaseModse: %.02f\n\r", vc.oscillator[oscid].phaseMod);
             drawData();
             break;
         }
@@ -128,9 +128,9 @@ void OscMenu::drawData()
     vc.lcdHandler.setCursor(DATA_VALUE_X + 5 - width, DATA_Y);
     vc.lcdHandler.printf("%.02f", vc.oscillator[oscid].amplitude);
     vc.lcdHandler.setCursor(DATA_VALUE_X + 5 - width, DATA_Y + DATA_SPACING);
-    vc.lcdHandler.printf("%.02f", vc.oscillator[oscid].freqModulation);
+    vc.lcdHandler.printf("%.02f", vc.oscillator[oscid].freqMod);
     vc.lcdHandler.setCursor(DATA_VALUE_X + 5 - width, DATA_Y + (2 * DATA_SPACING));
-    vc.lcdHandler.printf("%.02f", vc.oscillator[oscid].phase);
+    vc.lcdHandler.printf("%.02f", vc.oscillator[oscid].phaseMod);
 }
 
 void OscMenu::drawWaveform()
@@ -138,11 +138,32 @@ void OscMenu::drawWaveform()
     vc.lcdHandler.fillRect(DATA_VALUE_X, DATA_Y, vc.lcdHandler.width() - DATA_VALUE_X, FOOTER_Y - DATA_Y, ILI9341_WHITE);
     switch (vc.oscillator[oscid].waveform)
     {
-        case 0:
+        case WAVEFORM_SINE:
+            GFX::DrawBMP("sine.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_SAWTOOTH:
+            GFX::DrawBMP("saw.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_SAWTOOTH_REVERSE:
+            GFX::DrawBMP("saw-rev.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_SQUARE:
             GFX::DrawBMP("square.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
-        case 1:
-            GFX::DrawBMP("sine.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+        case WAVEFORM_TRIANGLE:
+            GFX::DrawBMP("tri.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_TRIANGLE_VARIABLE:
+            GFX::DrawBMP("tri-var.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_ARBITRARY:
+            GFX::DrawBMP("arb.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_PULSE:
+            GFX::DrawBMP("pulse.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            break;
+        case WAVEFORM_SAMPLE_HOLD:
+            GFX::DrawBMP("sample.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         default:
             break;
@@ -151,6 +172,9 @@ void OscMenu::drawWaveform()
 
 void OscMenu::drawFooter()
 {
+    vc.lcdHandler.setTextSize(14);
+    vc.lcdHandler.setFont(Arial_14_Bold);
+
     vc.lcdHandler.fillRect(DATA_X, FOOTER_Y, vc.lcdHandler.width() - 10, FOOTER_Y + 20, ILI9341_WHITE);
     vc.lcdHandler.drawFastHLine(DATA_X, FOOTER_Y, vc.lcdHandler.width() - (2 * DATA_X), ILI9341_BLACK);
 

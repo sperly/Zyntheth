@@ -69,15 +69,18 @@ void initValueContainer()
 
     for (int i = 0; i < OSCILLATORS; ++i)
     {
-        vc.oscillator[i].waveform       = 0;
-        vc.oscillator[i].amplitude      = 0.0;
-        vc.oscillator[i].freqModulation = 0.0;
-        vc.oscillator[i].phase          = 0.0;
-        vc.oscillator[i].freq           = 0;
-        vc.oscillator[i].attack         = 0;
-        vc.oscillator[i].decay          = 0;
-        vc.oscillator[i].sustain        = 0;
-        vc.oscillator[i].release        = 0;
+        vc.oscillator[i].waveform  = WAVEFORM_SINE;
+        vc.oscillator[i].amplitude = 0.7;
+
+        vc.oscillator[i].freqMod  = 0.0;
+        vc.oscillator[i].phaseMod = 0.0;
+        vc.oscillator[i].freq     = 0;
+        vc.oscillator[i].delay    = DELAY_DEF;
+        vc.oscillator[i].attack   = ATTACK_DEF;
+        vc.oscillator[i].hold     = HOLD_DEF;
+        vc.oscillator[i].decay    = DECAY_DEF;
+        vc.oscillator[i].sustain  = SUSTAIN_DEF;
+        vc.oscillator[i].release  = RELEASE_DEF;
     }
 }
 
@@ -113,6 +116,9 @@ void setup()
     vc.lcdHandler.begin();
     vc.lcdHandler.setRotation(1);
     vc.lcdHandler.fillScreen(ILI9341_WHITE);
+
+    Serial.print("Initializing value container...");
+    initValueContainer();
 
     menuHandler.Init(vc);
 }

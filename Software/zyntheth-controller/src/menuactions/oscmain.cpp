@@ -68,6 +68,9 @@ void OscMain::drawData()
 
 void OscMain::drawFooter()
 {
+    vc.lcdHandler.setTextSize(14);
+    vc.lcdHandler.setFont(Arial_14_Bold);
+
     vc.lcdHandler.fillRect(DATA_X, FOOTER_Y, vc.lcdHandler.width() - 10, FOOTER_Y + 20, ILI9341_WHITE);
     vc.lcdHandler.drawFastHLine(DATA_X, FOOTER_Y, vc.lcdHandler.width() - (2 * DATA_X), ILI9341_BLACK);
 

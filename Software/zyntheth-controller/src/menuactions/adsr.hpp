@@ -12,6 +12,26 @@ class ADSR : public IMenuAction
     void HandleParameterChange(uint8_t parameter, int16_t value);
 
  private:
+    struct point
+    {
+        int x;
+        int y;
+    };
+
+    struct line
+    {
+        struct point start;
+        struct point stop;
+    };
+
+    struct adsr
+    {
+        struct line attack;
+        struct line decay;
+        struct line sustain;
+        struct line release;
+    };
+
     void drawMenu();
     void drawHeader();
     void drawData();

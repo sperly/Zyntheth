@@ -19,13 +19,16 @@ class ValueContainer
         uint8_t enabled;
         uint8_t waveform;
         float_t amplitude;
-        float_t freqModulation;
-        float_t phase;
+        float_t offset;
+        float_t freqMod;
+        float_t phaseMod;
         uint16_t freq;
-        uint16_t attack;
-        uint16_t decay;
+        float_t delay;
+        float_t attack;
+        float_t hold;
+        float_t decay;
         float_t sustain;
-        uint16_t release;
+        float_t release;
     };
 
     ILI9341_t3 lcdHandler{15, 10, 16};
