@@ -24,3 +24,12 @@ fp-info-cache
 # Exported BOM files
 *.xml
 *.csv
+
+# Extra folders in libraries
+Software/*/lib/*/extras
+Software/*/lib/*/examples
+Software/*/lib/*/extras
+Software/*/lib/*/docs
+Software/*/lib/*/*
+!Software/*/lib/*/*.cpp
+!Software/*/lib/*/*.hpp
