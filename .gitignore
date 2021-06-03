@@ -33,3 +33,4 @@ Software/*/lib/*/docs
 Software/*/lib/*/*
 !Software/*/lib/*/*.cpp
 !Software/*/lib/*/*.hpp
+!Software/*/lib/*/Makefile
