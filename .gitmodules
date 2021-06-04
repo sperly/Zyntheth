@@ -1,3 +1,6 @@
 [submodule "Software/zyntheth-controller/lib/FlexCAN"]
 	path = Software/zyntheth-controller/lib/FlexCAN
 	url = https://github.com/collin80/FlexCAN_Library.git
+[submodule "Software/zyntheth-controller/lib/Bounce2"]
+	path = Software/zyntheth-controller/lib/Bounce2
+	url = https://github.com/thomasfredericks/Bounce2.git
