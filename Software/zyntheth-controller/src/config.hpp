@@ -3,6 +3,8 @@
 #define OSCILLATORS 4
 #define WAVEFORMS 2
 
+#define LCD_TIMEOUT 5000
+
 #define HW_VER_MAJOR 1
 #define HW_VER_MINOR 0
 #define HW_VER_PATCH 1

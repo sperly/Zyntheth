@@ -1,6 +1,6 @@
 #include "gfx.hpp"
 
-void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3 &lcd)
+void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd)
 {
     File bmpFile;
     int bmpWidth, bmpHeight;              // W+H in pixels

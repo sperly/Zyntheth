@@ -1,6 +1,6 @@
 #include "splashmenu.hpp"
-#include "font_Arial.h"
-#include "font_ArialBold.h"
+#include "ili9341_t3n_font_Arial.h"
+#include "ili9341_t3n_font_ArialBold.h"
 #include "gfx.hpp"
 
 SplashMenu::SplashMenu(ValueContainer& valcon) : vc{valcon}

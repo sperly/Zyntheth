@@ -1,7 +1,7 @@
 #include "oscmain.hpp"
 #include "config.hpp"
-#include "font_Arial.h"
-#include "font_ArialBold.h"
+#include "ili9341_t3n_font_Arial.h"
+#include "ili9341_t3n_font_ArialBold.h"
 #include "gfx.hpp"
 
 OscMain::OscMain(ValueContainer& valcon) : vc{valcon}
@@ -42,7 +42,7 @@ void OscMain::drawHeader()
     vc.lcdHandler.setTextSize(16);
     vc.lcdHandler.setFont(Arial_16_Bold);
     vc.lcdHandler.setTextColor(ILI9341_BLUE);
-    int width = vc.lcdHandler.measureTextWidth("OSC MAIN", 8);
+    int width = vc.lcdHandler.strPixelLen("OSC MAIN", 8);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - 10 - width, HEADER_HEIGHT - 6 - 18);
     vc.lcdHandler.printf("OSC MAIN");
 }
@@ -60,7 +60,7 @@ void OscMain::drawData()
         vc.lcdHandler.setTextColor(ILI9341_BLACK);
         vc.lcdHandler.printf("O%d Enabled:", i + 1);
         vc.lcdHandler.setTextColor(ILI9341_DARKGREY);
-        int width = vc.lcdHandler.measureTextWidth("W", 1);
+        int width = vc.lcdHandler.strPixelLen("W", 1);
         vc.lcdHandler.setCursor(DATA_VALUE_X + 5 - width, DATA_Y + (DATA_SPACING * i));
         vc.lcdHandler.printf("%s", (vc.oscillator[i].enabled == 1 ? "X" : "-"));
     }
@@ -80,7 +80,7 @@ void OscMain::drawFooter()
     // vc.lcdHandler.printf("Oscillator");
 
     GFX::DrawBMP("arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
-    vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.measureTextWidth("Oscillators", 11), FOOTER_Y + 9);
+    vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.strPixelLen("Oscillators", 11), FOOTER_Y + 9);
     vc.lcdHandler.setTextColor(ILI9341_BLACK);
     vc.lcdHandler.printf("Oscillators");
 }

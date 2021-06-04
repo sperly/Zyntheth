@@ -1,7 +1,7 @@
 #include "testmenu.hpp"
 #include "config.hpp"
-#include "font_Arial.h"
-#include "font_ArialBold.h"
+#include "ili9341_t3n_font_Arial.h"
+#include "ili9341_t3n_font_ArialBold.h"
 #include "gfx.hpp"
 
 TestMenu::TestMenu(ValueContainer& valcon) : vc{valcon}
@@ -67,7 +67,7 @@ void TestMenu::drawMenu()
     vc.lcdHandler.setFont(Arial_16_Bold);
 
     vc.lcdHandler.setTextColor(ILI9341_BLUE);
-    int width = vc.lcdHandler.measureTextWidth("TEST", 4);
+    int width = vc.lcdHandler.strPixelLen("TEST", 4);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - 10 - width, HEADER_HEIGHT - 6 - 18);
     vc.lcdHandler.printf("TEST");
 

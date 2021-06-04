@@ -1,8 +1,10 @@
 #include "adsr.hpp"
+#include "ILI9341_t3n.h"
 #include "config.hpp"
-#include "font_Arial.h"
-#include "font_ArialBold.h"
+#include "ili9341_t3n_font_Arial.h"
+#include "ili9341_t3n_font_ArialBold.h"
 #include "gfx.hpp"
+
 
 ADSR::ADSR(ValueContainer& valcon, uint8_t id) : vc{valcon}, oscid{id}
 {
@@ -84,7 +86,7 @@ void ADSR::drawHeader()
     vc.lcdHandler.setTextSize(16);
     vc.lcdHandler.setFont(Arial_16_Bold);
     vc.lcdHandler.setTextColor(ILI9341_BLUE);
-    int width = vc.lcdHandler.measureTextWidth("ADSR X", 6);
+    int width = vc.lcdHandler.strPixelLen("ADSR X", 6);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - 10 - width, HEADER_HEIGHT - 6 - 18);
     vc.lcdHandler.printf("ADSR %d", oscid + 1);
 }
@@ -143,7 +145,7 @@ void ADSR::drawFilter()
     vc.lcdHandler.printf("ATTACK: ");
     memset(str_buff, 0, 10);
     sprintf(str_buff, "%.02fms", vc.oscillator[oscid].attack);
-    width = vc.lcdHandler.measureTextWidth(str_buff, 0);
+    width = vc.lcdHandler.strPixelLen(str_buff, 0);
     vc.lcdHandler.setCursor(DATA_X + 150 - width, FOOTER_Y - DATA_Y);
     vc.lcdHandler.printf("%s", str_buff);
 
@@ -151,7 +153,7 @@ void ADSR::drawFilter()
     vc.lcdHandler.printf("DECAY: ");
     memset(str_buff, 0, 10);
     sprintf(str_buff, "%.02fms", vc.oscillator[oscid].decay);
-    width = vc.lcdHandler.measureTextWidth(str_buff, 0);
+    width = vc.lcdHandler.strPixelLen(str_buff, 0);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - DATA_X - width, FOOTER_Y - DATA_Y);
     vc.lcdHandler.printf("%s", str_buff);
 
@@ -159,7 +161,7 @@ void ADSR::drawFilter()
     vc.lcdHandler.printf("SUSTAIN: ");
     memset(str_buff, 0, 10);
     sprintf(str_buff, "%.01f%%", vc.oscillator[oscid].sustain * 100);
-    width = vc.lcdHandler.measureTextWidth(str_buff, 0);
+    width = vc.lcdHandler.strPixelLen(str_buff, 0);
     vc.lcdHandler.setCursor(DATA_X + 150 - width, FOOTER_Y - DATA_Y + 12);
     vc.lcdHandler.printf("%s", str_buff);
 
@@ -167,7 +169,7 @@ void ADSR::drawFilter()
     vc.lcdHandler.printf("RELEASE: ");
     memset(str_buff, 0, 10);
     sprintf(str_buff, "%.02fms", vc.oscillator[oscid].release);
-    width = vc.lcdHandler.measureTextWidth(str_buff, 0);
+    width = vc.lcdHandler.strPixelLen(str_buff, 0);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - DATA_X - width, FOOTER_Y - DATA_Y + 12);
     vc.lcdHandler.printf("%s", str_buff);
 
@@ -188,7 +190,7 @@ void ADSR::drawFooter()
     vc.lcdHandler.printf("Oscillator");
 
     // GFX::DrawBMP("arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
-    // vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.measureTextWidth("Filter", 6), FOOTER_Y + 9);
+    // vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.strPixelLen("Filter", 6), FOOTER_Y + 9);
     // vc.lcdHandler.setTextColor(ILI9341_BLACK);
     // vc.lcdHandler.printf("Filter");
 }

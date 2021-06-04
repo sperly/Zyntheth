@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ILI9341_t3.h"
+#include "ILI9341_t3n.h"
 #include "menuaction.hpp"
 #include "valuecontainer.hpp"
 

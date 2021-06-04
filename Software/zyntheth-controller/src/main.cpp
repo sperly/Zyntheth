@@ -1,5 +1,6 @@
 #include "Arduino.h"
-#include "ILI9341_t3.h"
+#include "ILI9341_t3n.h"
+#include "Metro.h"
 #include "SD.h"
 #include "config.hpp"
 #include "encoder.hpp"
@@ -15,15 +16,36 @@ MCP23S17 gpio;
 Encoder encoder[ENCODERS];
 ValueContainer vc;
 
-short lightState = 0;
+short lightState      = 0;
+short lcdBackLightPin = 33;
 
 MenuHandler menuHandler{};
+
+Metro sleepTimer = Metro(LCD_TIMEOUT);
+bool sleeping    = false;
+
+void resetSleepTimer()
+{
+    if (sleeping == true)
+    {
+        digitalWrite(lcdBackLightPin, HIGH);
+        vc.lcdHandler.sleep(false);
+        sleeping = false;
+        sleepTimer.reset();
+    }
+    else
+    {
+        sleepTimer.reset();
+    }
+}
 
 void checkEncoders()
 {
     uint8_t portA = gpio.ReadPortA();
     uint8_t portB = gpio.ReadPortB();
     uint16_t pos  = portA | ((uint16_t)portB << 8);
+
+    bool updated = false;
 
     for (int count = 0; count < 5; ++count)
     {
@@ -32,7 +54,10 @@ void checkEncoders()
         {
             vc.Controls.localSteps[count] += encoder[count].GetSteps();
             if (vc.Controls.localSteps[count] != 0)
+            {
                 menuHandler.HandleMenuAction(count, vc.Controls.localSteps[count]);
+                updated = true;
+            }
             vc.Controls.localSteps[count] = 0;
         }
 
@@ -42,6 +67,7 @@ void checkEncoders()
             Serial.printf("Button: %d - %d\n\r", count, bPress);
             menuHandler.HandleMenuAction(count + ENCODERS, bPress);
             vc.Controls.buttonpress[count] = bPress;
+            updated                        = true;
         }
     }
     uint8_t bPress = ((char)((pos >> 8) & 0b10000000) >> 7);
@@ -50,6 +76,12 @@ void checkEncoders()
         Serial.printf("Button: %d - %d\n\r", ENCODERS, bPress);
         menuHandler.HandleMenuAction(ENCODERS + ENCODERS, bPress);
         vc.Controls.buttonpress[ENCODERS] = bPress;
+        updated                           = true;
+    }
+
+    if (updated)
+    {
+        resetSleepTimer();
     }
 }
 
@@ -113,6 +145,10 @@ void setup()
     gpio.SetPortDirection(PORT_B, PORT_INPUT);
     //attachInterrupt(ENC_INT_A, ISR_EncIntA, FALLING);
     //lcd.setClock(60000000);
+
+    pinMode(lcdBackLightPin, OUTPUT);
+    digitalWrite(lcdBackLightPin, LOW);
+
     vc.lcdHandler.begin();
     vc.lcdHandler.setRotation(1);
     vc.lcdHandler.fillScreen(ILI9341_WHITE);
@@ -121,11 +157,19 @@ void setup()
     initValueContainer();
 
     menuHandler.Init(vc);
+    digitalWrite(lcdBackLightPin, HIGH);
+    sleepTimer.reset();
 }
 
 void loop()
 {
     checkEncoders();
+    if (!sleeping && sleepTimer.check())
+    {
+        vc.lcdHandler.sleep(true);
+        digitalWrite(lcdBackLightPin, LOW);
+        sleeping = true;
+    }
 
     // for (int i = 0; i < ENCODERS; ++i)
     // {

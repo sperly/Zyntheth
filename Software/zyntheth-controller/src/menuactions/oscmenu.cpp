@@ -1,7 +1,7 @@
 #include "oscmenu.hpp"
 #include "config.hpp"
-#include "font_Arial.h"
-#include "font_ArialBold.h"
+#include "ili9341_t3n_font_Arial.h"
+#include "ili9341_t3n_font_ArialBold.h"
 #include "gfx.hpp"
 
 OscMenu::OscMenu(ValueContainer& valcon, uint8_t id) : vc{valcon}, oscid{id}
@@ -112,7 +112,7 @@ void OscMenu::drawHeader()
     vc.lcdHandler.setTextSize(16);
     vc.lcdHandler.setFont(Arial_16_Bold);
     vc.lcdHandler.setTextColor(ILI9341_BLUE);
-    int width = vc.lcdHandler.measureTextWidth("OSC X", 5);
+    int width = vc.lcdHandler.strPixelLen("OSC X", 5);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - 10 - width, HEADER_HEIGHT - 6 - 18);
     vc.lcdHandler.printf("OSC %d", oscid + 1);
 }
@@ -124,7 +124,7 @@ void OscMenu::drawData()
     vc.lcdHandler.setFont(Arial_14_Bold);
 
     vc.lcdHandler.setTextColor(ILI9341_DARKGREY);
-    int width = vc.lcdHandler.measureTextWidth("W.WW", 4);
+    int width = vc.lcdHandler.strPixelLen("W.WW", 4);
     vc.lcdHandler.setCursor(DATA_VALUE_X + 5 - width, DATA_Y);
     vc.lcdHandler.printf("%.02f", vc.oscillator[oscid].amplitude);
     vc.lcdHandler.setCursor(DATA_VALUE_X + 5 - width, DATA_Y + DATA_SPACING);
@@ -184,7 +184,7 @@ void OscMenu::drawFooter()
     vc.lcdHandler.printf("Osc. Contr.");
 
     GFX::DrawBMP("arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
-    vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.measureTextWidth("Filter", 6), FOOTER_Y + 9);
+    vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.strPixelLen("Filter", 6), FOOTER_Y + 9);
     vc.lcdHandler.setTextColor(ILI9341_BLACK);
     vc.lcdHandler.printf("Filter");
 }

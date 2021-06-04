@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ILI9341_t3.h"
+#include "ILI9341_t3n.h"
 #include "config.hpp"
 
 class ValueContainer
@@ -31,7 +31,7 @@ class ValueContainer
         float_t release;
     };
 
-    ILI9341_t3 lcdHandler{15, 10, 16};
+    ILI9341_t3n lcdHandler{15, 10, 16};
     controls_t Controls;
     osc_t oscillator[OSCILLATORS];
 };

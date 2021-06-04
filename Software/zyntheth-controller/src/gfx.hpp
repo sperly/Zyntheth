@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Arduino.h"
-#include "ILI9341_t3.h"
+#include "ILI9341_t3n.h"
 #include "SD.h"
 
 #define BUFFPIXEL 80
@@ -9,7 +9,7 @@
 class GFX
 {
  public:
-    static void DrawBMP(const char* filename, uint16_t x, uint16_t y, ILI9341_t3& lcd);
+    static void DrawBMP(const char* filename, uint16_t x, uint16_t y, ILI9341_t3n& lcd);
 
  private:
     static uint16_t read16(File& f);
