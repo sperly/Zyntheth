@@ -4,3 +4,6 @@
 [submodule "Software/zyntheth-controller/lib/Bounce2"]
 	path = Software/zyntheth-controller/lib/Bounce2
 	url = https://github.com/thomasfredericks/Bounce2.git
+[submodule "Software/zyntheth-controller/lib/Metro"]
+	path = Software/zyntheth-controller/lib/Metro
+	url = https://github.com/thomasfredericks/Metro-Arduino-Wiring.git
