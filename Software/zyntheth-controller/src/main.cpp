@@ -2,8 +2,10 @@
 #include "ILI9341_t3n.h"
 #include "Metro.h"
 #include "SD.h"
+#include "com/com.hpp"
 #include "config.hpp"
 #include "encoder.hpp"
+#include "log.hpp"
 #include "mcp23s17.hpp"
 #include "menuhandler.hpp"
 #include "valuecontainer.hpp"
@@ -24,6 +26,10 @@ MenuHandler menuHandler{};
 Metro sleepTimer = Metro(LCD_TIMEOUT);
 bool sleeping    = false;
 
+bool signalsChanged = false;
+
+Com com{vc};
+
 void resetSleepTimer()
 {
     if (sleeping == true)
@@ -32,6 +38,7 @@ void resetSleepTimer()
         vc.lcdHandler.sleep(false);
         sleeping = false;
         sleepTimer.reset();
+        LOG_DEBUG("LCD Wake Up");
     }
     else
     {
@@ -64,7 +71,7 @@ void checkEncoders()
         uint8_t bPress = ((char)((pos >> (count * 3)) & 0b00000100) >> 2);
         if (bPress != vc.Controls.buttonpress[count])
         {
-            Serial.printf("Button: %d - %d\n\r", count, bPress);
+            LOG_DEBUG("Encoder", "Button: %d - %d", count, bPress);
             menuHandler.HandleMenuAction(count + ENCODERS, bPress);
             vc.Controls.buttonpress[count] = bPress;
             updated                        = true;
@@ -73,7 +80,7 @@ void checkEncoders()
     uint8_t bPress = ((char)((pos >> 8) & 0b10000000) >> 7);
     if (bPress != vc.Controls.buttonpress[ENCODERS])
     {
-        Serial.printf("Button: %d - %d\n\r", ENCODERS, bPress);
+        LOG_DEBUG("Encoder", "Button: %d - %d", ENCODERS, bPress);
         menuHandler.HandleMenuAction(ENCODERS + ENCODERS, bPress);
         vc.Controls.buttonpress[ENCODERS] = bPress;
         updated                           = true;
@@ -81,12 +88,14 @@ void checkEncoders()
 
     if (updated)
     {
+        signalsChanged = true;
         resetSleepTimer();
     }
 }
 
 void initValueContainer()
 {
+    LOG_DEBUG("Initializing valuecontainer...");
     for (int i = 0; i < ENCODERS; i++)
     {
         vc.Controls.localSteps[i] = 0;
@@ -103,17 +112,18 @@ void initValueContainer()
     {
         vc.oscillator[i].waveform  = WAVEFORM_SINE;
         vc.oscillator[i].amplitude = 0.7;
-
-        vc.oscillator[i].freqMod  = 0.0;
-        vc.oscillator[i].phaseMod = 0.0;
-        vc.oscillator[i].freq     = 0;
-        vc.oscillator[i].delay    = DELAY_DEF;
-        vc.oscillator[i].attack   = ATTACK_DEF;
-        vc.oscillator[i].hold     = HOLD_DEF;
-        vc.oscillator[i].decay    = DECAY_DEF;
-        vc.oscillator[i].sustain  = SUSTAIN_DEF;
-        vc.oscillator[i].release  = RELEASE_DEF;
+        vc.oscillator[i].detune    = 0;
+        vc.oscillator[i].freqMod   = 0.0;
+        vc.oscillator[i].phaseMod  = 0.0;
+        vc.oscillator[i].freq      = 0;
+        vc.oscillator[i].delay     = DELAY_DEF;
+        vc.oscillator[i].attack    = ATTACK_DEF;
+        vc.oscillator[i].hold      = HOLD_DEF;
+        vc.oscillator[i].decay     = DECAY_DEF;
+        vc.oscillator[i].sustain   = SUSTAIN_DEF;
+        vc.oscillator[i].release   = RELEASE_DEF;
     }
+    LOG_DEBUG("Initializing valuecontainer done.");
 }
 
 void setup()
@@ -122,7 +132,8 @@ void setup()
     while (!Serial)
         ;
 
-    Serial.print("\n\r\n\r\n\rStarting ZYNTHETH...");
+    Serial.printf("\n\r\n\r\n\r");
+    LOG_DEBUG("Starting ZYNTHETH...");
 
     for (int count = 0; count < 5; ++count)
     {
@@ -130,30 +141,31 @@ void setup()
         encoder[count].Reset();
     }
 
-    Serial.print("Initializing SD card...");
+    LOG_DEBUG("Initializing SD...");
 
     if (!SD.begin(BUILTIN_SDCARD))
     {
-        Serial.println("initialization failed!");
+        LOG_DEBUG("... initialization failed!");
         return;
     }
-    Serial.println("initialization done.");
+    LOG_DEBUG("... initialization done!");
 
-    Serial.println("Init of MCP23S17");
     gpio.Init(CS_PIN);
     gpio.SetPortDirection(PORT_A, PORT_INPUT);
     gpio.SetPortDirection(PORT_B, PORT_INPUT);
     //attachInterrupt(ENC_INT_A, ISR_EncIntA, FALLING);
+
     //lcd.setClock(60000000);
 
+    LOG_DEBUG("Initializing LCD...");
     pinMode(lcdBackLightPin, OUTPUT);
     digitalWrite(lcdBackLightPin, LOW);
 
     vc.lcdHandler.begin();
     vc.lcdHandler.setRotation(1);
     vc.lcdHandler.fillScreen(ILI9341_WHITE);
+    LOG_DEBUG("Initialization LCD done.");
 
-    Serial.print("Initializing value container...");
     initValueContainer();
 
     menuHandler.Init(vc);
@@ -169,15 +181,10 @@ void loop()
         vc.lcdHandler.sleep(true);
         digitalWrite(lcdBackLightPin, LOW);
         sleeping = true;
+        LOG_DEBUG("LCD Sleep");
     }
-
-    // for (int i = 0; i < ENCODERS; ++i)
-    // {
-    //     if (0 != vc.localSteps[i])
-    //     {
-    //         menuHandler.HandleMenuAction(i, vc.localSteps[i]);
-    //         vc.lastSteps[i] = 0;
-    //         // vc.lastSteps[i] = vc.localSteps[i];
-    //     }
-    // }
+    if (signalsChanged)
+    {
+        com.Send();
+    }
 }

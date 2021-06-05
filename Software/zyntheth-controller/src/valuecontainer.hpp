@@ -19,6 +19,7 @@ class ValueContainer
         uint8_t enabled;
         uint8_t waveform;
         float_t amplitude;
+        float_t detune;
         float_t offset;
         float_t freqMod;
         float_t phaseMod;

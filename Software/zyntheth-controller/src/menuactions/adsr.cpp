@@ -1,10 +1,10 @@
 #include "adsr.hpp"
 #include "ILI9341_t3n.h"
 #include "config.hpp"
+#include "gfx.hpp"
 #include "ili9341_t3n_font_Arial.h"
 #include "ili9341_t3n_font_ArialBold.h"
-#include "gfx.hpp"
-
+#include "log.hpp"
 
 ADSR::ADSR(ValueContainer& valcon, uint8_t id) : vc{valcon}, oscid{id}
 {
@@ -17,14 +17,14 @@ void ADSR::Enter()
 
 void ADSR::HandleParameterChange(uint8_t parameter, int16_t value)
 {
-    Serial.printf("ADSR[%d]::HandleParameterChange: par: %d, val: %d \n\r", oscid, parameter, value);
+    LOG_DEBUG("ADSR[%d]::HandleParameterChange: par: %d, val: %d", oscid, parameter, value);
     switch (parameter)
     {
         case 1: {
             if ((value < 0 && vc.oscillator[oscid].attack > ATTACK_MIN) || (value > 0 && vc.oscillator[oscid].attack < ATTACK_MAX))
             {
                 vc.oscillator[oscid].attack += (float_t)((float_t)value / 2.0);
-                Serial.printf("Osc.attack: %.02fms\n\r", vc.oscillator[oscid].attack);
+                LOG_DEBUG("Osc.attack: %.02fms", vc.oscillator[oscid].attack);
             }
             break;
         }
@@ -32,7 +32,7 @@ void ADSR::HandleParameterChange(uint8_t parameter, int16_t value)
             if ((value < 0 && vc.oscillator[oscid].decay > DECAY_MIN) || (value > 0 && vc.oscillator[oscid].decay < DECAY_MAX))
             {
                 vc.oscillator[oscid].decay += (float_t)((float_t)value / 2.0);
-                Serial.printf("Osc.decay: %.02fms\n\r", vc.oscillator[oscid].decay);
+                LOG_DEBUG("Osc.decay: %.02fms", vc.oscillator[oscid].decay);
             }
             break;
         }
@@ -40,7 +40,7 @@ void ADSR::HandleParameterChange(uint8_t parameter, int16_t value)
             if ((value < 0 && vc.oscillator[oscid].sustain > SUSTAIN_MIN) || (value > 0 && vc.oscillator[oscid].sustain < SUSTAIN_MAX))
             {
                 vc.oscillator[oscid].sustain += (float_t)((float_t)value / 200.0);
-                Serial.printf("Osc.sustain: %.02f%%\n\r", vc.oscillator[oscid].sustain);
+                LOG_DEBUG("Osc.sustain: %.02f%%", vc.oscillator[oscid].sustain);
             }
             break;
         }
@@ -48,7 +48,7 @@ void ADSR::HandleParameterChange(uint8_t parameter, int16_t value)
             if ((value < 0 && vc.oscillator[oscid].release > RELEASE_MIN) || (value > 0 && vc.oscillator[oscid].release < RELEASE_MAX))
             {
                 vc.oscillator[oscid].release += (float_t)((float_t)value / 2.0);
-                Serial.printf("Osc.release: %.02fms\n\r", vc.oscillator[oscid].release);
+                LOG_DEBUG("Osc.release: %.02fms", vc.oscillator[oscid].release);
             }
             break;
         }
@@ -62,7 +62,7 @@ void ADSR::HandleParameterChange(uint8_t parameter, int16_t value)
 
 void ADSR::drawMenu()
 {
-    Serial.printf("Osc[%d]Menu::drawMenu \n\r", oscid);
+    LOG_DEBUG("Osc[%d]Menu::drawMenu", oscid);
     drawHeader();
     // vc.lcdHandler.fillRect(DATA_X, DATA_Y, DATA_VALUE_X - DATA_X, FOOTER_Y - DATA_Y, ILI9341_WHITE);
     // vc.lcdHandler.setTextSize(14);
@@ -116,11 +116,10 @@ void ADSR::drawFilter()
 
     int y_size = (FOOTER_Y - DATA_Y - 10) - (DATA_Y + 10);
     int x_size = (vc.lcdHandler.width() - DATA_X - DATA_X);
-    Serial.printf("ADSR: a:%.02fms d:%.02fms s:%.02f%% r:%.02fms\n\r", vc.oscillator[oscid].attack, vc.oscillator[oscid].decay, vc.oscillator[oscid].sustain, vc.oscillator[oscid].release);
-    float_t length = (vc.oscillator[oscid].attack + vc.oscillator[oscid].decay + vc.oscillator[oscid].release) * (float_t)(1.30);
-    Serial.printf("ADSR: length=%.02f", length);
+    LOG_DEBUG("ADSR: a:%.02fms d:%.02fms s:%.02f%% r:%.02fms", vc.oscillator[oscid].attack, vc.oscillator[oscid].decay, vc.oscillator[oscid].sustain, vc.oscillator[oscid].release);
+    float_t length      = (vc.oscillator[oscid].attack + vc.oscillator[oscid].decay + vc.oscillator[oscid].release) * (float_t)(1.30);
     float_t step_length = (float_t)((float_t)x_size / length);
-    Serial.printf(" - step_length=%.02f\n\r", step_length);
+    LOG_DEBUG("ADSR: length=%.02f - step_length=%.02f", length, step_length);
 
     filter.attack.start = {.x = DATA_X, .y = FOOTER_Y - DATA_Y - 10};
     filter.attack.stop  = {.x = DATA_X + (uint16_t)(step_length * vc.oscillator[oscid].attack), .y = DATA_Y + 10};
@@ -173,7 +172,7 @@ void ADSR::drawFilter()
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - DATA_X - width, FOOTER_Y - DATA_Y + 12);
     vc.lcdHandler.printf("%s", str_buff);
 
-    Serial.printf("ADSR: points %d,%d %d,%d %d,%d %d,%d %d,%d\n\r", filter.attack.start.x, filter.attack.start.y, filter.attack.stop.x, filter.attack.stop.y, filter.decay.stop.x, filter.decay.stop.y, filter.sustain.stop.x, filter.sustain.stop.y, filter.release.stop.x, filter.release.stop.y);
+    LOG_DEBUG("ADSR: points %d,%d %d,%d %d,%d %d,%d %d,%d", filter.attack.start.x, filter.attack.start.y, filter.attack.stop.x, filter.attack.stop.y, filter.decay.stop.x, filter.decay.stop.y, filter.sustain.stop.x, filter.sustain.stop.y, filter.release.stop.x, filter.release.stop.y);
 }
 
 void ADSR::drawFooter()

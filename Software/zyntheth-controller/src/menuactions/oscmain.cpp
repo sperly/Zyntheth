@@ -1,8 +1,10 @@
 #include "oscmain.hpp"
 #include "config.hpp"
+#include "gfx.hpp"
 #include "ili9341_t3n_font_Arial.h"
 #include "ili9341_t3n_font_ArialBold.h"
-#include "gfx.hpp"
+#include "log.hpp"
+
 
 OscMain::OscMain(ValueContainer& valcon) : vc{valcon}
 {
@@ -15,7 +17,7 @@ void OscMain::Enter()
 
 void OscMain::HandleParameterChange(uint8_t parameter, int16_t value)
 {
-    Serial.printf("OscMain::HandleParameterChange: par: %d, val: %d \n\r", parameter, value);
+    LOG_DEBUG("par: %d, val: %d", parameter, value);
     if (value > 0)
     {
         vc.oscillator[parameter - 1].enabled = 1;
@@ -24,13 +26,13 @@ void OscMain::HandleParameterChange(uint8_t parameter, int16_t value)
     {
         vc.oscillator[parameter - 1].enabled = 0;
     }
-    Serial.printf("Osc[%d].enabled: %d\n\r", parameter, vc.oscillator[parameter - 1].enabled);
+    LOG_DEBUG("Osc[%d].enabled: %d", parameter, vc.oscillator[parameter - 1].enabled);
     drawData();
 }
 
 void OscMain::drawMenu()
 {
-    Serial.printf("OscMain::drawMenu \n\r");
+    LOG_DEBUG("OscMain::drawMenu");
     drawHeader();
     drawData();
     drawFooter();

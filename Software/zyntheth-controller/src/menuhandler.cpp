@@ -1,5 +1,6 @@
 #include "menuhandler.hpp"
 #include <memory>
+#include "log.hpp"
 #include "menuActions/adsr.hpp"
 #include "menuActions/menuaction.hpp"
 #include "menuActions/oscmain.hpp"
@@ -13,7 +14,7 @@ MenuHandler::MenuHandler() : menuStack{}, menu{}, currentMenuIndex{0}
 
 void MenuHandler::Init(ValueContainer& valuecon)
 {
-    Serial.printf("MenuHandler::Init \n\r");
+    LOG_DEBUG("Initializing menuhandler...");
     menu.emplace_back(new SplashMenu{valuecon});
     menu.emplace_back(new TestMenu{valuecon});
     menu.emplace_back(new OscMain{valuecon});
@@ -28,12 +29,12 @@ void MenuHandler::Init(ValueContainer& valuecon)
 
     menuStack.push_back(std::make_unique<std::vector<IMenuAction*>>(menu));
     menuStack.back()->at(0)->Enter();
-    Serial.printf("MenuHandler::Init ... Done!\n\r");
+    LOG_DEBUG("Initializing menuhandler done.");
 }
 
 void MenuHandler::HandleMenuAction(uint8_t parameter, int16_t value)
 {
-    Serial.printf("HandleMenuAction: par: %d, val: %d (currMenu = %d/%d)\n\r", parameter, value, currentMenuIndex.back(), menuStack.back()->size());
+    LOG_DEBUG("par: %d, val: %d (currMenu = %d/%d)", parameter, value, currentMenuIndex.back(), menuStack.back()->size());
     if (parameter == 0)
     {
         if (value < 0)
@@ -57,7 +58,7 @@ void MenuHandler::HandleMenuAction(uint8_t parameter, int16_t value)
     {
         if (menuStack.back()->at(currentMenuIndex.back())->SubMenu.size() > 0)
         {
-            Serial.printf("MenuHandler::HandleMenuAction: Changing to submenu/n/r");
+            LOG_DEBUG("Changing to submenu");
             menuStack.push_back(std::make_unique<std::vector<IMenuAction*>>(menuStack.back()->at(currentMenuIndex.back())->SubMenu));
             currentMenuIndex.push_back(0);
             menuStack.back()->at(currentMenuIndex.back())->Enter();
@@ -65,7 +66,7 @@ void MenuHandler::HandleMenuAction(uint8_t parameter, int16_t value)
     }
     else if (parameter == 10 && menuStack.size() > 1 && value == 1)
     {
-        Serial.printf("MenuHandler::HandleMenuAction: Returning to parent menu/n/r");
+        LOG_DEBUG("Returning to parent menu");
         menuStack.pop_back();
         currentMenuIndex.pop_back();
         menuStack.back()->at(currentMenuIndex.back())->Enter();

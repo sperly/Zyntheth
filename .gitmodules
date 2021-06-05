@@ -4,3 +4,6 @@
 [submodule "Software/zyntheth-controller/lib/Bounce2"]
 	path = Software/zyntheth-controller/lib/Bounce2
 	url = https://github.com/thomasfredericks/Bounce2.git
+[submodule "Software/zyntheth-controller/lib/SPI"]
+	path = Software/zyntheth-controller/lib/SPI
+	url = https://github.com/PaulStoffregen/SPI.git

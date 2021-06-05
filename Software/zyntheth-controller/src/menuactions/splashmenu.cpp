@@ -1,7 +1,8 @@
 #include "splashmenu.hpp"
+#include "gfx.hpp"
 #include "ili9341_t3n_font_Arial.h"
 #include "ili9341_t3n_font_ArialBold.h"
-#include "gfx.hpp"
+#include "log.hpp"
 
 SplashMenu::SplashMenu(ValueContainer& valcon) : vc{valcon}
 {
@@ -35,7 +36,7 @@ void SplashMenu::HandleParameterChange(uint8_t parameter, int16_t value)
 
 void SplashMenu::drawMenu()
 {
-    Serial.printf("SplashMenu::drawMenu \n\r");
+    LOG_DEBUG("Drawing Splash menu...");
     vc.lcdHandler.fillRect(10, 4, 300, HEADER_HEIGHT - 6, ILI9341_WHITE);
     GFX::DrawBMP("logo.bmp", HEADER_HEIGHT - 22, 2, vc.lcdHandler);
     vc.lcdHandler.drawFastHLine(15, HEADER_HEIGHT - 2, 290, ILI9341_BLACK);
@@ -59,4 +60,5 @@ void SplashMenu::drawMenu()
     vc.lcdHandler.printf(".%d.%d", HW_VER_MINOR, HW_VER_PATCH);
     vc.lcdHandler.setCursor(284, HEADER_HEIGHT - 4 - 10);
     vc.lcdHandler.printf(".%d.%d", SW_VER_MINOR, SW_VER_PATCH);
+    LOG_DEBUG("Drawing menu done.");
 }

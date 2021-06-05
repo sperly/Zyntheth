@@ -1,8 +1,10 @@
 #include "gfx.hpp"
+#include "log.hpp"
 
 void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd)
 {
     File bmpFile;
+    uint32_t size;
     int bmpWidth, bmpHeight;              // W+H in pixels
     uint8_t bmpDepth;                     // Bit depth (currently must be 24)
     uint32_t bmpImageoffset;              // Start of image data in file
@@ -19,45 +21,32 @@ void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd
 
     if ((x >= lcd.width()) || (y >= lcd.height())) return;
 
-    Serial.println();
-    Serial.print(F("Loading image '"));
-    Serial.print(filename);
-    Serial.println('\'');
+    LOG_INFO("Loading image '%s'", filename);
 
     // Open requested file on SD card
     if (!(bmpFile = SD.open(filename)))
     {
-        Serial.print(F("File not found"));
+        LOG_ERROR("File not found");
         return;
     }
 
     // Parse BMP header
     if (read16(bmpFile) == 0x4D42)
     {  // BMP signature
-        Serial.print(F("File size: "));
-        Serial.println(read32(bmpFile));
+        size = read32(bmpFile);
         (void)read32(bmpFile);             // Read & ignore creator bytes
         bmpImageoffset = read32(bmpFile);  // Start of image data
-        Serial.print(F("Image Offset: "));
-        Serial.println(bmpImageoffset, DEC);
         // Read DIB header
-        Serial.print(F("Header size: "));
-        Serial.println(read32(bmpFile));
+        (void)read32(bmpFile);
         bmpWidth  = read32(bmpFile);
         bmpHeight = read32(bmpFile);
         if (read16(bmpFile) == 1)
         {                                // # planes -- must be '1'
             bmpDepth = read16(bmpFile);  // bits per pixel
-            Serial.print(F("Bit Depth: "));
-            Serial.println(bmpDepth);
             if ((bmpDepth == 24) && (read32(bmpFile) == 0))
             {  // 0 = uncompressed
 
                 goodBmp = true;  // Supported BMP format -- proceed!
-                Serial.print(F("Image size: "));
-                Serial.print(bmpWidth);
-                Serial.print('x');
-                Serial.println(bmpHeight);
 
                 // BMP rows are padded (if needed) to 4-byte boundary
                 rowSize = (bmpWidth * 3 + 3) & ~3;
@@ -112,15 +101,15 @@ void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd
                     }  // end pixel
                     lcd.writeRect(x, y + row, w, 1, awColors);
                 }  // end scanline
-                Serial.print(F("Loaded in "));
-                Serial.print(millis() - startTime);
-                Serial.println(" ms");
-            }  // end goodBmp
+            }      // end goodBmp
         }
     }
 
     bmpFile.close();
-    if (!goodBmp) Serial.println(F("BMP format not recognized."));
+    if (!goodBmp)
+        LOG_ERROR("BMP format not recognized.");
+    else
+        LOG_INFO("BMP Size: %d, x: %d, y: %d, bitdepth: %d, time to read: %dms", size, bmpWidth, bmpHeight, bmpDepth, millis() - startTime);
 }
 
 // These read 16- and 32-bit types from the SD card file.

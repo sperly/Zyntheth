@@ -1,8 +1,9 @@
 #include "oscmenu.hpp"
 #include "config.hpp"
+#include "gfx.hpp"
 #include "ili9341_t3n_font_Arial.h"
 #include "ili9341_t3n_font_ArialBold.h"
-#include "gfx.hpp"
+#include "log.hpp"
 
 OscMenu::OscMenu(ValueContainer& valcon, uint8_t id) : vc{valcon}, oscid{id}
 {
@@ -15,7 +16,7 @@ void OscMenu::Enter()
 
 void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
 {
-    Serial.printf("Osc[%d]Menu::HandleParameterChange: par: %d, val: %d \n\r", oscid, parameter, value);
+    LOG_DEBUG("Osc[%d]Menu::HandleParameterChange: par: %d, val: %d", oscid, parameter, value);
     switch (parameter)
     {
         case 1: {
@@ -27,7 +28,7 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
             {
                 vc.oscillator[oscid].waveform--;
             }
-            Serial.printf("Osc.wave: %d\n\r", vc.oscillator[oscid].waveform);
+            LOG_DEBUG("Osc.wave: %d", vc.oscillator[oscid].waveform);
             drawWaveform();
             break;
         }
@@ -43,7 +44,7 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
                 else
                     vc.oscillator[oscid].amplitude = 0;
             }
-            Serial.printf("Osc.amp: %.02f\n\r", vc.oscillator[oscid].amplitude);
+            LOG_DEBUG("Osc.amp: %.02f", vc.oscillator[oscid].amplitude);
             drawData();
             break;
         }
@@ -59,7 +60,7 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
                 else
                     vc.oscillator[oscid].freqMod = 0;
             }
-            Serial.printf("Osc.freqMod: %.02f\n\r", vc.oscillator[oscid].freqMod);
+            LOG_DEBUG("Osc.freqMod: %.02f", vc.oscillator[oscid].freqMod);
             drawData();
             break;
         }
@@ -75,7 +76,7 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
                 else
                     vc.oscillator[oscid].phaseMod = 0;
             }
-            Serial.printf("Osc.phaphaseModse: %.02f\n\r", vc.oscillator[oscid].phaseMod);
+            LOG_DEBUG("Osc.phaphaseModse: %.02f", vc.oscillator[oscid].phaseMod);
             drawData();
             break;
         }
@@ -88,7 +89,7 @@ void OscMenu::HandleParameterChange(uint8_t parameter, int16_t value)
 
 void OscMenu::drawMenu()
 {
-    Serial.printf("Osc[%d]Menu::drawMenu \n\r", oscid);
+    LOG_DEBUG("Drawing OscMenu[%d] menu...", oscid);
     drawHeader();
     vc.lcdHandler.fillRect(DATA_X, DATA_Y, DATA_VALUE_X - DATA_X, FOOTER_Y - DATA_Y, ILI9341_WHITE);
     vc.lcdHandler.setTextSize(14);

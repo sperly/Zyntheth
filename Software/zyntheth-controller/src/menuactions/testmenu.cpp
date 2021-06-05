@@ -1,8 +1,10 @@
 #include "testmenu.hpp"
 #include "config.hpp"
+#include "gfx.hpp"
 #include "ili9341_t3n_font_Arial.h"
 #include "ili9341_t3n_font_ArialBold.h"
-#include "gfx.hpp"
+#include "log.hpp"
+
 
 TestMenu::TestMenu(ValueContainer& valcon) : vc{valcon}
 {
@@ -59,7 +61,7 @@ void TestMenu::HandleParameterChange(uint8_t parameter, int16_t value)
 
 void TestMenu::drawMenu()
 {
-    Serial.printf("MainMenu::drawMenu \n\r");
+    LOG_DEBUG("MainMenu::drawMenu");
     //GFX::DrawBMP("main.bmp", 0, 0, lcdHandler);
     vc.lcdHandler.fillRect(10, HEADER_HEIGHT + 1, 300, 200, ILI9341_WHITE);
     vc.lcdHandler.fillRect(HEADER_WIDTH, 4, 150, HEADER_HEIGHT - 6, ILI9341_WHITE);

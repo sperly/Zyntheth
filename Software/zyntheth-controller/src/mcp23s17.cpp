@@ -1,4 +1,5 @@
 #include "mcp23s17.hpp"
+#include "log.hpp"
 
 //MCP23S17::MCP23S17()
 //{
@@ -17,6 +18,7 @@ void MCP23S17::Init(short csPin, short intPinA)
 
 void MCP23S17::Init(short csPin, short intPinA, short intPinB)
 {
+    LOG_DEBUG("Initializing...");
     slaveSelectPin = csPin;
     pinMode(slaveSelectPin, OUTPUT);
     digitalWrite(slaveSelectPin, HIGH);
@@ -29,20 +31,20 @@ void MCP23S17::Init(short csPin, short intPinA, short intPinB)
         iocon.MIRROR = 0;
         pinMode(intPinA, INPUT);
         pinMode(intPinB, INPUT);
-        Serial.printf("Using INT A & B as interrupt pin\n\r");
+        LOG_DEBUG("Using INT A & B as interrupt pin");
     }
     else if (intPinA != 255)
     {
         iocon.MIRROR = 1;
 
-        Serial.printf("Using INT A as interrupt pin\n\r");
+        LOG_DEBUG("Using INT A as interrupt pin");
     }
     else
     {
         iocon.MIRROR = 0;
         pinMode(intPinA, OUTPUT);
         pinMode(intPinB, OUTPUT);
-        Serial.printf("Using no interrupt pin\n\r");
+        LOG_DEBUG("Using no interrupt pin");
     }
 
     iocon.HAEN   = 0;
@@ -69,6 +71,7 @@ void MCP23S17::Init(short csPin, short intPinA, short intPinB)
     gppu.PU = 0xFF;
     writeByte(GPPU_A, gppu.PU);
     writeByte(GPPU_B, gppu.PU);
+    LOG_DEBUG("Initializing done.");
 }
 
 void MCP23S17::SetPortDirection(char port, char direction)
@@ -101,7 +104,7 @@ void MCP23S17::writeByte(char address, char data)
     SPI1.transfer(data);
     SPI1.endTransaction();
     digitalWrite(slaveSelectPin, HIGH);
-    Serial.printf("Wrote 0x%02X to 0x%02X\n\r", data, address);
+    //LOG_DEBUG("Wrote 0x%02X to 0x%02X", data, address);
 }
 
 char MCP23S17::readByte(char address)
@@ -114,6 +117,7 @@ char MCP23S17::readByte(char address)
     retval = SPI1.transfer(0);
     SPI1.endTransaction();
     digitalWrite(slaveSelectPin, HIGH);
+    //LOG_DEBUG("Read 0x%02X from 0x%02X", retval, address);
     return retval;
 }
 
