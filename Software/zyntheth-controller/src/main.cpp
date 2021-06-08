@@ -16,7 +16,7 @@
 MCP23S17 gpio;
 
 Encoder encoder[ENCODERS];
-ValueContainer vc;
+ValueContainer vc{};
 
 short lightState      = 0;
 short lcdBackLightPin = 33;
@@ -93,39 +93,6 @@ void checkEncoders()
     }
 }
 
-void initValueContainer()
-{
-    LOG_DEBUG("Initializing valuecontainer...");
-    for (int i = 0; i < ENCODERS; i++)
-    {
-        vc.Controls.localSteps[i] = 0;
-        vc.Controls.lastSteps[i]  = 0;
-        vc.Controls.update[i]     = false;
-    }
-
-    for (int i = 0; i < BUTTONS; i++)
-    {
-        vc.Controls.buttonpress[i] = 0;
-    }
-
-    for (int i = 0; i < OSCILLATORS; ++i)
-    {
-        vc.oscillator[i].waveform  = WAVEFORM_SINE;
-        vc.oscillator[i].amplitude = 0.7;
-        vc.oscillator[i].detune    = 0;
-        vc.oscillator[i].freqMod   = 0.0;
-        vc.oscillator[i].phaseMod  = 0.0;
-        vc.oscillator[i].freq      = 0;
-        vc.oscillator[i].delay     = DELAY_DEF;
-        vc.oscillator[i].attack    = ATTACK_DEF;
-        vc.oscillator[i].hold      = HOLD_DEF;
-        vc.oscillator[i].decay     = DECAY_DEF;
-        vc.oscillator[i].sustain   = SUSTAIN_DEF;
-        vc.oscillator[i].release   = RELEASE_DEF;
-    }
-    LOG_DEBUG("Initializing valuecontainer done.");
-}
-
 void setup()
 {
     Serial.begin(115200);
@@ -165,8 +132,6 @@ void setup()
     vc.lcdHandler.setRotation(1);
     vc.lcdHandler.fillScreen(ILI9341_WHITE);
     LOG_DEBUG("Initialization LCD done.");
-
-    initValueContainer();
 
     menuHandler.Init(vc);
     digitalWrite(lcdBackLightPin, HIGH);
