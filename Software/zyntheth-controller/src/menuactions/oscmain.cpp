@@ -5,7 +5,6 @@
 #include "ili9341_t3n_font_ArialBold.h"
 #include "log.hpp"
 
-
 OscMain::OscMain(ValueContainer& valcon) : vc{valcon}
 {
 }
@@ -81,8 +80,10 @@ void OscMain::drawFooter()
     // vc.lcdHandler.setTextColor(ILI9341_BLACK);
     // vc.lcdHandler.printf("Oscillator");
 
-    GFX::DrawBMP("arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
-    vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.strPixelLen("Oscillators", 11), FOOTER_Y + 9);
-    vc.lcdHandler.setTextColor(ILI9341_BLACK);
-    vc.lcdHandler.printf("Oscillators");
+    //GFX::DrawBMP("arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
+    GFX::DrawButton(vc.lcdHandler.width() - 65, FOOTER_Y + 5, 50, 20, "Osc", 14, vc.lcdHandler);
+
+    // vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.strPixelLen("Oscillators", 11), FOOTER_Y + 9);
+    // vc.lcdHandler.setTextColor(ILI9341_BLACK);
+    // vc.lcdHandler.printf("Oscillators");
 }

@@ -1,3 +1,4 @@
+#include <XPT2046_Touchscreen.h>
 #include "Arduino.h"
 #include "ILI9341_t3n.h"
 #include "Metro.h"
@@ -14,6 +15,10 @@
 #define CS_PIN 31
 
 MCP23S17 gpio;
+
+#define TCS_PIN 9
+#define TIRQ_PIN 8
+XPT2046_Touchscreen ts(TCS_PIN, TIRQ_PIN);
 
 Encoder encoder[ENCODERS];
 ValueContainer vc{};
@@ -96,8 +101,8 @@ void checkEncoders()
 void setup()
 {
     Serial.begin(115200);
-    while (!Serial)
-        ;
+    // while (!Serial)
+    //     ;
 
     Serial.printf("\n\r\n\r\n\r");
     LOG_DEBUG("Starting ZYNTHETH...");
@@ -131,6 +136,9 @@ void setup()
     vc.lcdHandler.begin();
     vc.lcdHandler.setRotation(1);
     vc.lcdHandler.fillScreen(ILI9341_WHITE);
+
+    ts.begin();
+    ts.setRotation(1);
     LOG_DEBUG("Initialization LCD done.");
 
     menuHandler.Init(vc);
@@ -151,5 +159,22 @@ void loop()
     if (signalsChanged)
     {
         com.Send();
+    }
+
+    if (ts.tirqTouched())
+    {
+        if (ts.touched())
+        {
+            resetSleepTimer();
+            TS_Point p = ts.getPoint();
+            Serial.print("Pressure = ");
+            Serial.print(p.z);
+            Serial.print(", x = ");
+            Serial.print(p.x);
+            Serial.print(", y = ");
+            Serial.print(p.y);
+            delay(30);
+            Serial.println();
+        }
     }
 }

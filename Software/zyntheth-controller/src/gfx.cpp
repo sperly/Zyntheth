@@ -1,5 +1,15 @@
 #include "gfx.hpp"
+#include "ili9341_t3n_font_Arial.h"
+#include "ili9341_t3n_font_ArialBold.h"
 #include "log.hpp"
+
+struct point
+{
+    uint8_t x;
+    uint8_t y;
+};
+
+point corner[5] = {{4, 1}, {3, 1}, {2, 2}, {1, 3}, {1, 4}};
 
 void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd)
 {
@@ -112,10 +122,49 @@ void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd
         LOG_INFO("BMP Size: %d, x: %d, y: %d, bitdepth: %d, time to read: %dms", size, bmpWidth, bmpHeight, bmpDepth, millis() - startTime);
 }
 
+void GFX::DrawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, String text, uint8_t text_size, ILI9341_t3n &lcd)
+{
+    lcd.drawFastHLine(x + 5, y, width - 10, ILI9341_BLACK);
+    lcd.drawFastHLine(x + 5, y + height, width - 10, ILI9341_BLACK);
+    lcd.drawFastVLine(x, y + 5, height - 10, ILI9341_BLACK);
+    lcd.drawFastVLine(x + width, y + 5, height - 10, ILI9341_BLACK);
+    for (uint8_t i = 0; i <= 5; ++i)
+    {
+        lcd.drawPixel(x + corner[i].x, y + corner[i].y, ILI9341_BLACK);
+        lcd.drawPixel(x + width - corner[i].x, y + corner[i].y, ILI9341_BLACK);
+        lcd.drawPixel(x + corner[i].x, y + height - corner[i].y, ILI9341_BLACK);
+        lcd.drawPixel(x + width - corner[i].x, y + height - corner[i].y, ILI9341_BLACK);
+    }
+
+    //Filling
+    lcd.drawFastHLine(x + 5, y + 1, width - 10, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 5, y + height - 1, width - 10, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 3, y + 2, width - 6, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 3, y + height - 2, width - 6, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 2, y + 3, width - 8, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 2, y + height - 3, width - 4, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 2, y + 4, width - 8, ILI9341_LIGHTGREY);
+    lcd.drawFastHLine(x + 2, y + height - 4, width - 4, ILI9341_LIGHTGREY);
+
+    for (uint8_t i = y + 5; i <= y + height - 5; ++i)
+    {
+        lcd.drawFastHLine(x + 1, i, width - 2, ILI9341_LIGHTGREY);
+    }
+
+    lcd.setTextSize(12);
+    lcd.setFont(Arial_12_Bold);
+    lcd.setTextColor(ILI9341_DARKGREY);
+    int text_width = lcd.strPixelLen(text.c_str());
+    int text_pos_x = x + ((width - text_width) / 2);
+    int text_pos_y = y + ((height - 12) / 2);
+    lcd.setCursor(text_pos_x, text_pos_y);
+    lcd.printf("%s", text.c_str());
+    LOG_DEBUG("Button x:%d, y:%d w: %d, h:%d - Text x:%d, y:%d, w:%d, h:%d", x, y, width, height, text_pos_x, text_pos_y, text_width, 12);
+}
+
 // These read 16- and 32-bit types from the SD card file.
 // BMP data is stored little-endian, Arduino is little-endian too.
 // May need to reverse subscript order if porting elsewhere.
-
 uint16_t GFX::read16(File &f)
 {
     uint16_t result;
