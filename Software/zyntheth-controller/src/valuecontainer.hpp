@@ -1,6 +1,8 @@
 #pragma once
 
+#include <FlexCAN.h>
 #include "ILI9341_t3n.h"
+#include "SdFat.h"
 #include "config.hpp"
 #include "log.hpp"
 
@@ -65,7 +67,9 @@ class ValueContainer
         float_t release;
     };
 
-    ILI9341_t3n lcdHandler{15, 10, 16};
+    ILI9341_t3n lcdHandler{LCD_CS, LCD_DC, LCD_RST, LCD_MOSI, LCD_SCLK, LCD_MISO};
     controls_t Controls;
     osc_t oscillator[OSCILLATORS];
+
+    SdFs sd;
 };

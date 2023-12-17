@@ -2,7 +2,7 @@
 #include "Arduino.h"
 #include "ILI9341_t3n.h"
 #include "Metro.h"
-#include "SD.h"
+#include "SdFat.h"
 #include "com/com.hpp"
 #include "config.hpp"
 #include "encoder.hpp"
@@ -24,7 +24,7 @@ Encoder encoder[ENCODERS];
 ValueContainer vc{};
 
 short lightState      = 0;
-short lcdBackLightPin = 33;
+short lcdBackLightPin = 24;
 
 MenuHandler menuHandler{};
 
@@ -34,6 +34,11 @@ bool sleeping    = false;
 bool signalsChanged = false;
 
 Com com{vc};
+
+#define SD_FAT_TYPE 3
+//const uint8_t SD_CS_PIN = SDCARD_SS_PIN;
+#define SPI_CLOCK SD_SCK_MHZ(50)
+#define SD_CONFIG SdioConfig(FIFO_SDIO)
 
 void resetSleepTimer()
 {
@@ -115,19 +120,25 @@ void setup()
 
     LOG_DEBUG("Initializing SD...");
 
-    if (!SD.begin(BUILTIN_SDCARD))
+    // if (!SD.begin(BUILTIN_SDCARD))
+    // {
+    //     LOG_DEBUG("... initialization failed!");
+    //     return;
+    // }
+
+    if (!vc.sd.begin(SD_CONFIG))
     {
+        //sd.initErrorHalt(&Serial);
         LOG_DEBUG("... initialization failed!");
         return;
     }
+
     LOG_DEBUG("... initialization done!");
 
     gpio.Init(CS_PIN);
     gpio.SetPortDirection(PORT_A, PORT_INPUT);
     gpio.SetPortDirection(PORT_B, PORT_INPUT);
     //attachInterrupt(ENC_INT_A, ISR_EncIntA, FALLING);
-
-    //lcd.setClock(60000000);
 
     LOG_DEBUG("Initializing LCD...");
     pinMode(lcdBackLightPin, OUTPUT);
@@ -144,6 +155,10 @@ void setup()
     menuHandler.Init(vc);
     digitalWrite(lcdBackLightPin, HIGH);
     sleepTimer.reset();
+
+    LOG_DEBUG("Initializing CAN...");
+    Can0.begin(1000000);
+    LOG_DEBUG("Initialization CAN done.");
 }
 
 void loop()
@@ -159,6 +174,7 @@ void loop()
     if (signalsChanged)
     {
         com.Send();
+        signalsChanged = false;
     }
 
     if (ts.tirqTouched())

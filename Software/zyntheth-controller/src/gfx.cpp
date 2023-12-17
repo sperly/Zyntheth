@@ -11,9 +11,9 @@ struct point
 
 point corner[5] = {{4, 1}, {3, 1}, {2, 2}, {1, 3}, {1, 4}};
 
-void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd)
+void GFX::DrawBMP(ValueContainer &vc, const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd)
 {
-    File bmpFile;
+    FsFile bmpFile;
     uint32_t size;
     int bmpWidth, bmpHeight;              // W+H in pixels
     uint8_t bmpDepth;                     // Bit depth (currently must be 24)
@@ -34,7 +34,7 @@ void GFX::DrawBMP(const char *filename, uint16_t x, uint16_t y, ILI9341_t3n &lcd
     LOG_INFO("Loading image '%s'", filename);
 
     // Open requested file on SD card
-    if (!(bmpFile = SD.open(filename)))
+    if (!(bmpFile = vc.sd.open(filename)))
     {
         LOG_ERROR("File not found");
         return;
@@ -165,7 +165,7 @@ void GFX::DrawButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, St
 // These read 16- and 32-bit types from the SD card file.
 // BMP data is stored little-endian, Arduino is little-endian too.
 // May need to reverse subscript order if porting elsewhere.
-uint16_t GFX::read16(File &f)
+uint16_t GFX::read16(FsFile &f)
 {
     uint16_t result;
     ((uint8_t *)&result)[0] = f.read();  // LSB
@@ -173,7 +173,7 @@ uint16_t GFX::read16(File &f)
     return result;
 }
 
-uint32_t GFX::read32(File &f)
+uint32_t GFX::read32(FsFile &f)
 {
     uint32_t result;
     ((uint8_t *)&result)[0] = f.read();  // LSB

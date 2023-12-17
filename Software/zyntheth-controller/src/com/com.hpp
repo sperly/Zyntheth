@@ -6,7 +6,7 @@
 class Com
 {
  public:
-    Com(ValueContainer &vc);
+    Com(ValueContainer &valueCon);
     void Send();
 
     template <typename SerializeType>
@@ -22,7 +22,7 @@ class Com
     }
 
  private:
-    ValueContainer &valueCon;
+    ValueContainer &vc;
 
     void sendPacket();
 

@@ -140,31 +140,31 @@ void OscMenu::drawWaveform()
     switch (vc.oscillator[oscid].waveform)
     {
         case WAVEFORM_SINE:
-            GFX::DrawBMP("sine.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "sine.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_SAWTOOTH:
-            GFX::DrawBMP("saw.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "saw.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_SAWTOOTH_REVERSE:
-            GFX::DrawBMP("saw-rev.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "saw-rev.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_SQUARE:
-            GFX::DrawBMP("square.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "square.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_TRIANGLE:
-            GFX::DrawBMP("tri.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "tri.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_TRIANGLE_VARIABLE:
-            GFX::DrawBMP("tri-var.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "tri-var.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_ARBITRARY:
-            GFX::DrawBMP("arb.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "arb.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_PULSE:
-            GFX::DrawBMP("pulse.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "pulse.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         case WAVEFORM_SAMPLE_HOLD:
-            GFX::DrawBMP("sample.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
+            GFX::DrawBMP(vc, "sample.bmp", DATA_VALUE_X, DATA_Y, vc.lcdHandler);
             break;
         default:
             break;
@@ -179,12 +179,12 @@ void OscMenu::drawFooter()
     vc.lcdHandler.fillRect(DATA_X, FOOTER_Y, vc.lcdHandler.width() - 10, FOOTER_Y + 20, ILI9341_WHITE);
     vc.lcdHandler.drawFastHLine(DATA_X, FOOTER_Y, vc.lcdHandler.width() - (2 * DATA_X), ILI9341_BLACK);
 
-    GFX::DrawBMP("arrow_l.bmp", DATA_X, FOOTER_Y + 9, vc.lcdHandler);
+    GFX::DrawBMP(vc, "arrow_l.bmp", DATA_X, FOOTER_Y + 9, vc.lcdHandler);
     vc.lcdHandler.setCursor(DATA_X + 20, FOOTER_Y + 9);
     vc.lcdHandler.setTextColor(ILI9341_BLACK);
     vc.lcdHandler.printf("Osc. Contr.");
 
-    GFX::DrawBMP("arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
+    GFX::DrawBMP(vc, "arrow_r.bmp", vc.lcdHandler.width() - 30, FOOTER_Y + 9, vc.lcdHandler);
     vc.lcdHandler.setCursor(vc.lcdHandler.width() - 35 - vc.lcdHandler.strPixelLen("Filter", 6), FOOTER_Y + 9);
     vc.lcdHandler.setTextColor(ILI9341_BLACK);
     vc.lcdHandler.printf("Filter");

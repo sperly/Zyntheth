@@ -183,7 +183,7 @@ void ADSR::drawFooter()
     vc.lcdHandler.fillRect(DATA_X, FOOTER_Y, vc.lcdHandler.width() - 10, FOOTER_Y + 20, ILI9341_WHITE);
     vc.lcdHandler.drawFastHLine(DATA_X, FOOTER_Y, vc.lcdHandler.width() - (2 * DATA_X), ILI9341_BLACK);
 
-    GFX::DrawBMP("arrow_l.bmp", DATA_X, FOOTER_Y + 9, vc.lcdHandler);
+    GFX::DrawBMP(vc, "arrow_l.bmp", DATA_X, FOOTER_Y + 9, vc.lcdHandler);
     vc.lcdHandler.setCursor(DATA_X + 20, FOOTER_Y + 9);
     vc.lcdHandler.setTextColor(ILI9341_BLACK);
     vc.lcdHandler.printf("Oscillator");

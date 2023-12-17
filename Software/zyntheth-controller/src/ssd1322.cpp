@@ -1,13 +1,14 @@
 #include "SSD1322.hpp"
 
-#define CS 10
-#define DC 9
+#define CS 14
+#define DC 10
 
 void SSD1322::writeByte(unsigned char Data)
 {
     SPI1.beginTransaction(spiSettingsSSD1322);
     SPI1.transfer(Data);
     SPI1.endTransaction();
+    delay(10);
 }
 
 void SSD1322::WriteCommand(unsigned char Data)

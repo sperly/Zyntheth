@@ -38,9 +38,9 @@ void SplashMenu::drawMenu()
 {
     LOG_DEBUG("Drawing Splash menu...");
     vc.lcdHandler.fillRect(10, 4, 300, HEADER_HEIGHT - 6, ILI9341_WHITE);
-    GFX::DrawBMP("logo.bmp", HEADER_HEIGHT - 22, 2, vc.lcdHandler);
+    GFX::DrawBMP(vc, "logo.bmp", HEADER_HEIGHT - 22, 2, vc.lcdHandler);
     vc.lcdHandler.drawFastHLine(15, HEADER_HEIGHT - 2, 290, ILI9341_BLACK);
-    GFX::DrawBMP("splash.bmp", 15, HEADER_HEIGHT + 1, vc.lcdHandler);
+    GFX::DrawBMP(vc, "splash.bmp", 15, HEADER_HEIGHT + 1, vc.lcdHandler);
     vc.lcdHandler.setTextColor(ILI9341_BLACK);
     vc.lcdHandler.setTextSize(12);
     vc.lcdHandler.setFont(Arial_12_Bold);

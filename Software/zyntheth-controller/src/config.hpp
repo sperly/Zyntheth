@@ -3,7 +3,13 @@
 #define OSCILLATORS 4
 #define WAVEFORMS 2
 
-#define LCD_TIMEOUT 5000
+#define LCD_TIMEOUT 60000
+#define LCD_CS 14
+#define LCD_DC 10
+#define LCD_RST 15
+#define LCD_MOSI 11
+#define LCD_SCLK 13
+#define LCD_MISO 12
 
 #define HW_VER_MAJOR 1
 #define HW_VER_MINOR 0
